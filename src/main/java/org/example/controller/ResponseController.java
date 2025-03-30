@@ -62,9 +62,9 @@ public class ResponseController {
         return ResponseEntity.ok(responseService.getResponsesForSurveyByEmployee(surveyId, employeeId));
     }
 
-    @DeleteMapping("/{responseId}")
-    public ResponseEntity<Void> deleteResponse(@PathVariable UUID responseId) {
-        responseService.deleteResponse(responseId);
+    @DeleteMapping("/delete/{employeeId}/{surveyId}")
+    public ResponseEntity<Void> deleteEmployeeResponses(@PathVariable UUID employeeId, @PathVariable UUID surveyId) {
+        responseService.deleteResponsesByEmployeeAndSurvey(employeeId, surveyId);
         return ResponseEntity.noContent().build();
     }
 }
