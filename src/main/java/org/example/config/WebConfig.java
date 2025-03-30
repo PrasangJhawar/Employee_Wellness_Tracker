@@ -4,20 +4,29 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Configuration
 public class WebConfig {
+
+    private static final Logger logger = LoggerFactory.getLogger(WebConfig.class);
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Allow all endpoints
-                        .allowedOrigins("http://127.0.0.1:5500") // Allow your frontend origin
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific HTTP methods
-                        .allowedHeaders("*") // Allow all headers
-                        .allowCredentials(true);
+                //logging when CORS configuration is being applied
+                logger.info("Configuring CORS mappings...");
+
+                registry.addMapping("/**")  //allowing all endpoints
+                        .allowedOrigins("http://localhost:5500")  //allowing frontend origin
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  //allowing HTTP methods
+                        .allowedHeaders("*")  //headers
+                        .allowCredentials(true);  //credentials like cookies
+
+                logger.info("CORS configuration applied successfully.");//debugging
             }
         };
     }
