@@ -12,4 +12,6 @@ public interface ResponseRepository extends JpaRepository<Response, UUID> {
     List<Response> findBySurveyId(UUID surveyId);
     List<Response> findByEmployeeId(UUID employeeId);
     List<Response> findBySurveyIdAndEmployeeId(UUID surveyId, UUID employeeId);
+    void deleteByEmployeeIdAndSurveyId(UUID employeeId, UUID surveyId);
+
 }
