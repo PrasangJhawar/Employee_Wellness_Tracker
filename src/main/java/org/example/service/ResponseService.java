@@ -1,5 +1,6 @@
 package org.example.service;
 
+import jakarta.transaction.Transactional;
 import org.example.dto.ResponseDTO;
 import org.example.model.Employee;
 import org.example.model.Question;
@@ -112,4 +113,10 @@ public class ResponseService {
     public void deleteResponse(UUID responseId) {
         responseRepository.deleteById(responseId);
     }
+
+    @Transactional
+    public void deleteResponsesByEmployeeAndSurvey(UUID employeeId, UUID surveyId) {
+        responseRepository.deleteByEmployeeIdAndSurveyId(employeeId, surveyId);
+    }
+
 }
