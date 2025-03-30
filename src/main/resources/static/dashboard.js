@@ -13,7 +13,6 @@ async function fetchSurveys(){
         const submittedResponse = await fetch(`http://localhost:8080/responses/employee/${employeeId}`);
         const submittedSurveys = await submittedResponse.json();
 
-        //extracting surveys IDs
         const submittedSurveyIds = [...new Set(submittedSurveys.map(response => response.surveyId))];
 
         const surveyList = document.getElementById("survey-list");
@@ -24,16 +23,15 @@ async function fetchSurveys(){
             return;
         }
 
-        //getting each survey object one by one from the above surveys variable(line 4)
         surveys.forEach(survey => {
             const surveyItem = document.createElement("div");
             surveyItem.classList.add("survey-item");
 
             const isSubmitted = submittedSurveyIds.includes(survey.id);
 
-            
             const button = document.createElement("button");
             button.innerText = isSubmitted ? "Already Submitted" : "Participate";
+            button.setAttribute("data-survey-id", survey.id);
             button.onclick = () => viewSurvey(survey.id);
 
             if(isSubmitted){
@@ -43,16 +41,12 @@ async function fetchSurveys(){
                 button.style.cursor = "not-allowed";
             }
 
-            //populating (inserting name and desc dynamically)
             surveyItem.innerHTML = `
                 <h3>${survey.title}</h3>
                 <p>${survey.description}</p>
             `;
-
-            //we add the button to the survey item
+            
             surveyItem.appendChild(button);
-
-            //we add the survey entity(whole done till now) to survey list and now it gets displayed
             surveyList.appendChild(surveyItem);
         });
     }catch(error){
@@ -91,13 +85,52 @@ async function fetchSubmittedSurveys(){
                     <h3>${survey.surveyTitle}</h3>
                     <p>${survey.surveyDescription}</p>
                     <button onclick="viewSubmittedResponses('${surveyId}')">View Responses</button>
+                    <button onclick="deleteResponses('${surveyId}')" style="background-color: #001e4d;">Delete Responses</button>
                 `;
                 responsesContainer.appendChild(surveyItem);
             }
         });
-
     }catch(error){
         console.error("Error fetching submitted surveys:", error);
+    }
+}
+
+async function deleteResponses(surveyId){
+    const employeeId = sessionStorage.getItem("employeeId");
+    if(!employeeId){
+        console.error("Employee ID not found, redirecting to login");
+        window.location.href = "login.html";
+        return;
+    }
+
+    if(!confirm("Are you sure you want to delete your responses for this survey?")){
+        return;
+    }
+
+    try{
+        const response = await fetch(`http://localhost:8080/responses/delete/${employeeId}/${surveyId}`, {
+            method: "DELETE"
+        });
+
+        if(response.ok){
+            alert("Responses deleted successfully");
+            fetchSubmittedSurveys();
+            fetchSurveys();
+            
+            //re-enabling button
+            const button = document.querySelector(`button[data-survey-id='${surveyId}']`);
+            if(button){
+                button.innerText = "Participate";
+                button.disabled = false;
+                button.style.backgroundColor = "";
+                button.style.color = "";
+                button.style.cursor = "pointer";
+            }
+        }else{
+            alert("Failed to delete responses");
+        }
+    }catch(error){
+        console.error("Error deleting responses:", error);
     }
 }
 
@@ -110,19 +143,16 @@ function viewSubmittedResponses(surveyId){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Check if survey was updated, then refresh data
     if(sessionStorage.getItem("surveyUpdated") === "true"){
         console.log("refreshing dashboard");
         fetchSurveys();
         fetchSubmittedSurveys();
-        sessionStorage.removeItem("surveyUpdated"); // Clear flag
+        sessionStorage.removeItem("surveyUpdated");
     }
 
-    // Load Surveys
     fetchSurveys();
     fetchSubmittedSurveys();
 
-    //updating navbar with employee name
     const employeeName = sessionStorage.getItem("employeeName");
     const nameElement = document.getElementById("employee-name");
     if(nameElement){
