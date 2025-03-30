@@ -1,10 +1,13 @@
 package org.example.controller;
-
+import java.util.Map;
+import java.util.regex.Pattern;
 import org.example.dto.LoginResponseDTO;
 import org.example.model.Employee;
 import org.example.model.Response;
 import org.example.service.EmployeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +25,27 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerEmployee(@RequestBody Employee employee) {
+        //using regular expression for the company email domain
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@nucleusteq\\.com$";
+
+        //validating the email
+        if (employee.getEmail() == null || !Pattern.matches(emailRegex, employee.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Invalid email. Only company.com emails are allowed."));
+
+        }
+
         try {
             Employee savedEmployee = employeeService.createEmployee(employee);
             return ResponseEntity.ok(savedEmployee);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Employee loginRequest) {
