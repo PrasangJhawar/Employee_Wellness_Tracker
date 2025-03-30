@@ -1,0 +1,137 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e9eff1;
+    color: #333;
+}
+
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+#survey-details {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#survey-details h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #001e4b;
+    margin-bottom: 10px;
+}
+
+#survey-details p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+}
+
+
+#questions-container {
+    margin-top: 40px;
+}
+
+
+.question-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.question-item p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #001e4b;
+    margin-bottom: 10px;
+}
+
+.question-item p strong {
+    font-size: 18px;
+    color: #001e4b;
+    margin-right: 10px;
+}
+
+
+.question-item input[type="text"] {
+    width: 100%;
+    max-width: 700px;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.question-item input[type="text"]:focus {
+    border-color: #001e4b;
+    outline: none;
+    background-color: #fff;
+}
+
+
+button {
+    background-color: #001e4b;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 30px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #002d72;
+}
+
+
+.question-item input[type="text"]:hover {
+    border-color: #002d72;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 20px;
+    }
+
+    #survey-details h1 {
+        font-size: 28px;
+    }
+
+    #survey-details p {
+        font-size: 14px;
+    }
+
+    .question-item p {
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+
+    .question-item input[type="text"] {
+        max-width: 100%;
+    }
+}
