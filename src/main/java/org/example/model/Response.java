@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 @Entity
@@ -39,5 +41,10 @@ public class Response {
     @Column(nullable = false)
     private boolean isActive = true; // whether the response is active or deleted
 
-    private long timestamp; // timestamp when the response was given
+    private LocalDateTime submittedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.submittedAt = LocalDateTime.now(ZoneOffset.UTC);
+    }                                                       // timestamp when the response was given
 }

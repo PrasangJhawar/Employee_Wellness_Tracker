@@ -36,4 +36,6 @@ public class Employee {
     @JsonIgnore
     private List<Response> surveyResponses;
 
+    private String location;
+
 }
