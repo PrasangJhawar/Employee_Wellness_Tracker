@@ -22,7 +22,7 @@ async function updateProfile(){
     const updatedPassword = document.getElementById("password").value;
 
     const updateData = {
-        name: updatedName,
+        name: updatedName || null,
         password: updatedPassword || null
     };
 

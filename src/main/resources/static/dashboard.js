@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const employeeName = sessionStorage.getItem("employeeName");
     const nameElement = document.getElementById("employee-name");
     if(nameElement){
-        nameElement.textContent = `Hi, ${employeeName || "User"}`;
+        nameElement.textContent = `Hi ${employeeName || "User"}`;
     }
 });
 

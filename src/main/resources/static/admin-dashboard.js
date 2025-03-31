@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchLiveSurveys();
 
     document.getElementById("reports-btn").addEventListener("click", function() {
-        window.location.href = "reports.html"; // Redirect to reports.html
+        window.location.href = "report.html"; // Redirect to reports.html
     });
 
     
@@ -175,6 +175,10 @@ function logout() {
     sessionStorage.clear();
 }
 
+const isAdmin = sessionStorage.getItem("isAdmin");
+if(!isAdmin){
+    window.location.href="login.html";
+}
 
 //reports
 const reports = document.getElementById("reports-btn");
