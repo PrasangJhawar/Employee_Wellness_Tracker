@@ -50,7 +50,7 @@ public class ReportService {
                 })
                 .toList();
 
-        // Convert responses into CSV format (for simplicity, storing as String)
+        //converting responses into CSV format
         StringBuilder reportContent = new StringBuilder("Employee,Survey,Response,SubmittedAt\n");
         for (Response response : responses) {
             reportContent.append(String.join(",",
@@ -61,7 +61,7 @@ public class ReportService {
                     .append("\n");
         }
 
-        // Create and save report entity
+        //creating a survey report entity
         Report report = new Report();
         report.setReportName("Employee Wellness Report");
         report.setGeneratedBy(adminName);
@@ -84,13 +84,13 @@ public class ReportService {
                 .orElseThrow(() -> new RuntimeException("Report not found"));
     }
 
-    // Export CSV
+    //exporting CSV
     public String exportReportAsCSV(Long reportId) {
         Report report = getReportById(reportId);
         return report.getReportData();
     }
 
-    // Export PDF
+    //exporting PDF
     public byte[] exportReportAsPDF(Long reportId) {
         Report report = getReportById(reportId);
 
@@ -114,7 +114,7 @@ public class ReportService {
                 contentStream.showText("Employee Wellness Report");
                 contentStream.endText();
 
-                // Table properties
+                //Table properties
                 float margin = 50;
                 float yStart = 720;
                 float tableWidth = page.getMediaBox().getWidth() - 2 * margin;
@@ -122,10 +122,10 @@ public class ReportService {
                 float tableYPosition = yStart;
                 float[] columnWidths = {100, 100, 150, 100};
 
-                // Column headers
+                //column headers
                 String[] headers = {"Employee Name", "Survey", "Response", "Submitted At"};
 
-                // Draw table headers
+                //draw table headers
                 contentStream.setFont(boldFont, 10);
                 float xPosition = margin;
                 for (int i = 0; i < headers.length; i++) {
@@ -138,12 +138,12 @@ public class ReportService {
 
                 tableYPosition -= rowHeight;
 
-                // Draw responses
+                //draw responses
                 contentStream.setFont(font, 10);
                 for (String line : report.getReportData().split("\n")) {
                     String[] row = line.split(",");
 
-                    if (row.length == 4) { // Ensure correct data format
+                    if (row.length == 4) { //correct data format check
                         xPosition = margin;
                         for (int i = 0; i < row.length; i++) {
                             contentStream.beginText();
@@ -155,7 +155,7 @@ public class ReportService {
                         tableYPosition -= rowHeight;
                     }
 
-                    if (tableYPosition < 50) break; // Prevent text from going out of bounds
+                    if (tableYPosition < 50) break;//out of bound prevention
                 }
             }
 
