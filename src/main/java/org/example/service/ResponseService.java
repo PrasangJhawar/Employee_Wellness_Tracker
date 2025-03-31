@@ -42,12 +42,26 @@ public class ResponseService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
+        // Fetch all responses for this employee in the survey
+        List<Response> responses = responseRepository.findBySurveyIdAndEmployeeId(surveyId, employeeId);
+
+        // Extract questions and answers
+        List<String> questions = responses.stream()
+                .map(r -> r.getQuestion().getText())
+                .collect(Collectors.toList());
+        List<String> answers = responses.stream()
+                .map(Response::getResponseText)
+                .collect(Collectors.toList());
+
+        questions.add(question.getText());
+        answers.add(responseText);
+
+        // Create response object before AI call
         Response response = Response.builder()
                 .employee(employee)
                 .survey(survey)
                 .question(question)
                 .responseText(responseText)
-                .timestamp(System.currentTimeMillis())
                 .build();
 
         Response savedResponse = responseRepository.save(response);
@@ -57,10 +71,10 @@ public class ResponseService {
                 savedResponse.getResponseText(),
                 savedResponse.getEmployee().getId(),
                 savedResponse.getQuestion().getId(),
-                savedResponse.getQuestion().getText(), // Fetching question text
+                savedResponse.getQuestion().getText(),
                 savedResponse.getSurvey().getId(),
-                response.getSurvey().getTitle(),
-                response.getSurvey().getDescription()
+                savedResponse.getSurvey().getTitle(),
+                savedResponse.getSurvey().getDescription()
         );
     }
 
@@ -101,14 +115,13 @@ public class ResponseService {
                         response.getResponseText(),
                         response.getEmployee().getId(),
                         response.getQuestion().getId(),
-                        response.getQuestion().getText(),  // fetching the actual question text
+                        response.getQuestion().getText(),
                         response.getSurvey().getId(),
-                        response.getSurvey().getTitle(),  // fetching  survey title
-                        response.getSurvey().getDescription() // fetching the survey description
+                        response.getSurvey().getTitle(),
+                        response.getSurvey().getDescription()
                 ))
                 .collect(Collectors.toList());
     }
-
 
     public void deleteResponse(UUID responseId) {
         responseRepository.deleteById(responseId);
@@ -118,5 +131,4 @@ public class ResponseService {
     public void deleteResponsesByEmployeeAndSurvey(UUID employeeId, UUID surveyId) {
         responseRepository.deleteByEmployeeIdAndSurveyId(employeeId, surveyId);
     }
-
 }
