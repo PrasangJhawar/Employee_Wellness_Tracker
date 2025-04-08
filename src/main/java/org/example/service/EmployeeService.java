@@ -15,6 +15,8 @@ import java.util.UUID;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
+
+    //constructor injection
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
@@ -84,6 +86,7 @@ public class EmployeeService {
     public Employee promoteToAdmin(UUID employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
+        //setting the admin to true
         employee.setAdmin(true);
         return employeeRepository.save(employee);
     }

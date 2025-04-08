@@ -17,6 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://127.0.0.1:5500") //cors for frontend
+
 public class AuthController {
     private final EmployeeService employeeService;
     public AuthController(EmployeeService employeeService) {

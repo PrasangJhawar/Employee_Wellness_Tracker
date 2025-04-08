@@ -41,10 +41,11 @@ public class Response {
     @Column(nullable = false)
     private boolean isActive = true; // whether the response is active or deleted
 
-    private LocalDateTime submittedAt;
+    private LocalDateTime submittedAt;  // timestamp when the response was given
 
+    //pre persist makes the method execute before the entity is persisted(saved)
     @PrePersist
     protected void onCreate() {
         this.submittedAt = LocalDateTime.now(ZoneOffset.UTC);
-    }                                                       // timestamp when the response was given
+    }
 }

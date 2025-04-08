@@ -51,17 +51,20 @@ public class ResponseController {
         return ResponseEntity.ok(responseService.getResponsesForSurvey(surveyId));
     }
 
+    //dashboard.js (fetchSurveys and fetchSubmittedSurveys)
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<ResponseDTO>> getResponsesForEmployee(@PathVariable UUID employeeId) {
         return ResponseEntity.ok(responseService.getResponsesForEmployee(employeeId));
     }
 
+    //used in fetchSubmittedResponses() in submitted-responses.js
     @GetMapping("/survey/{surveyId}/employee/{employeeId}")
     public ResponseEntity<List<ResponseDTO>> getResponsesForSurveyByEmployee(
             @PathVariable UUID surveyId, @PathVariable UUID employeeId) {
         return ResponseEntity.ok(responseService.getResponsesForSurveyByEmployee(surveyId, employeeId));
     }
 
+    //used in dashboard.js to delete responses
     @DeleteMapping("/delete/{employeeId}/{surveyId}")
     public ResponseEntity<Void> deleteEmployeeResponses(@PathVariable UUID employeeId, @PathVariable UUID surveyId) {
         responseService.deleteResponsesByEmployeeAndSurvey(employeeId, surveyId);

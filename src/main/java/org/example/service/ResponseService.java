@@ -42,10 +42,10 @@ public class ResponseService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        // Fetch all responses for this employee in the survey
+        //fetching all responses for this employee in the survey
         List<Response> responses = responseRepository.findBySurveyIdAndEmployeeId(surveyId, employeeId);
 
-        // Extract questions and answers
+        //extracting questions and answers
         List<String> questions = responses.stream()
                 .map(r -> r.getQuestion().getText())
                 .collect(Collectors.toList());
@@ -56,7 +56,7 @@ public class ResponseService {
         questions.add(question.getText());
         answers.add(responseText);
 
-        // Create response object before AI call
+        //creating response object before AI call
         Response response = Response.builder()
                 .employee(employee)
                 .survey(survey)
@@ -108,6 +108,7 @@ public class ResponseService {
                 .collect(Collectors.toList());
     }
 
+    //filtered by survey and responses together
     public List<ResponseDTO> getResponsesForSurveyByEmployee(UUID surveyId, UUID employeeId) {
         return responseRepository.findBySurveyIdAndEmployeeId(surveyId, employeeId).stream()
                 .map(response -> new ResponseDTO(

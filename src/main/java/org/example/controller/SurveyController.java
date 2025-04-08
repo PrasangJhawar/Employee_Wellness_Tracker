@@ -46,7 +46,7 @@ public class SurveyController {
             Survey updated = surveyService.updateSurvey(id, updatedSurvey, employeeId);
             return ResponseEntity.ok(updated);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(403).body(null); // Forbidden if not an admin
+            return ResponseEntity.status(403).body(null); //denied if not an admin
         }
     }
 

@@ -25,14 +25,18 @@ public class Report {
     @Column(nullable = false)
     private String generatedBy; //admin who generated the report
 
+
+    //for filters
     private String departmentFilter;
     private String locationFilter;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    //lob stores large object
     @Lob
     private String reportData; //JSON or CSV content
 
+    //this tells method to be called before the things get saved
     @PrePersist
     protected void onCreate() {
         this.generatedAt = LocalDateTime.now();

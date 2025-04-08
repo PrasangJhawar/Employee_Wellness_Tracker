@@ -27,9 +27,17 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Employee>> getEmployeeById(@PathVariable UUID id){
+        employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(employeeService.getEmployeeById(id));
+    }
+
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteEmployee(@PathVariable UUID id){
         employeeService.deleteEmployee(id);
+        //status code 204
         return ResponseEntity.noContent().build();
     }
 

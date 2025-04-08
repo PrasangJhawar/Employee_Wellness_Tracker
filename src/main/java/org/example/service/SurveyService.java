@@ -47,7 +47,7 @@ public class SurveyService {
             throw new RuntimeException("Only admins can update surveys");
         }
 
-        // If the employee is an admin, update the survey
+        // If the employee is an admin, update the survey(only title and description)
         return surveyRepository.findById(id)
                 .map(existingSurvey -> {
                     existingSurvey.setTitle(updatedSurvey.getTitle());

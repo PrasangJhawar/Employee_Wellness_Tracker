@@ -54,8 +54,12 @@ public class ReportController {
         try {
             byte[] pdfData = reportService.exportReportAsPDF(id);
             return ResponseEntity.ok()
+                    //content disposition tells browser to download the file
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report.pdf")
+                    //pdf = Application_Pdf
                     .contentType(MediaType.APPLICATION_PDF)
+
+                    //body holds byte array(pdf data basically)
                     .body(pdfData);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(null);
