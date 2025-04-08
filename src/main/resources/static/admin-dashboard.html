@@ -31,6 +31,26 @@
                 <tbody id="employee-table-body"></tbody>
             </table>
         </section>
+        <!-- employee editing-->
+        <div id="editEmployeeModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModalBtn">&times;</span>
+                <h2>Edit Employee</h2>
+                <form id="editEmployeeForm">
+                    <label for="employee-name">Name:</label>
+                    <input class="edit-input" type="text" id="employee-name" required>
+
+                    <label for="employee-email">Email:</label>
+                    <input class="edit-input" type="email" id="employee-email" required>
+
+                    <label for="employee-department">Department:</label>
+                    <input class="edit-input" type="text" id="employee-department" required>
+
+                    <button id="save-btn" type="submit">Save Changes</button>
+                </form>
+            </div>
+        </div>
+
         
         <section id="create-survey">
             <h2>Create Survey</h2>
@@ -60,6 +80,7 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Status</th>
+                    <th>View Survey</th>
                 </tr>
             </thead>
             <tbody id="live-surveys-table-body"></tbody>

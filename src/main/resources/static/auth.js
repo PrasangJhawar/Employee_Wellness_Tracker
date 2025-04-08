@@ -5,42 +5,42 @@ function showMessage(message, isSuccess){
     messageDiv.style.display = "block";
 }
 
-async function register() {
-    // DOM elements
+async function register(){
+    //DOM elements
     const name = document.getElementById("register-name").value;
     const email = document.getElementById("register-email").value;
     const department = document.getElementById("register-department").value;
     const password = document.getElementById("register-password").value;
 
-    if (!name || !email || !department || !password) {
+    if(!name || !email || !department || !password){
         showMessage("Please fill in all the fields.", false);
         return;
     }
 
     const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
-        headers: {
+        headers:{
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ name, email, department, password })
     });
 
-    // Check if response is ok (200 range)
-    if (!response.ok) {
+    //checking if response is ok
+    if(!response.ok){
         let result;
-        try {
-            result = await response.json();  // Try to parse the JSON response
-        } catch (e) {
-            showMessage("An unexpected error occurred. Please try again.", false);
+        try{
+            result = await response.json();  //parsing the JSON response
+        }catch(e){
+            showMessage("An unexpected error occurred, Try again", false);
             return;
         }
 
-        // Show the error message returned by the backend
-        showMessage(result.message || "An error occurred. Please try again later.", false);
+        //showing the error message returned by the backend
+        //showMessage(result.message || "An error occurred. Please try again later.", false);
         return;
     }
 
-    // Parse successful response (Registration success)
+    //parsing successful response(Registration successful)
     const result = await response.json();
     showMessage("Registration successful! Redirecting to login...", true);
     setTimeout(() => window.location.href = "login.html", 2000);
@@ -57,7 +57,7 @@ async function login(){
     try{
         const response = await fetch("http://localhost:8080/auth/login", {
             method: "POST",
-            headers: { 
+            headers:{ 
                 "Content-Type": "application/json" 
             },
             body: JSON.stringify({email, password})  

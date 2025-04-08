@@ -1,3 +1,7 @@
+:root{
+    --primary-color: #001e4d;
+    --secondry-color: #003580;
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,7 +10,7 @@ body {
 }
 
 .admin-navbar {
-    background-color: #001e4d;
+    background-color: var(--primary-color);
     color: white;
     padding: 15px;
     display: flex;
@@ -44,7 +48,7 @@ th, td {
 }
 
 button {
-    background-color: #001e4d;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 10px;
@@ -53,7 +57,7 @@ button {
 }
 
 button:hover {
-    background-color: #003580;
+    background-color: var(--secondry-color);
 }
 
 input, textarea {
@@ -79,23 +83,71 @@ input, textarea {
     margin-bottom: 20px;
 }
 
-.question-wrapper {
+.question-wrapper{
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 8px;
 }
 
-.survey-question {
+.survey-question{
     flex-grow: 1;
     padding: 8px;
 }
 
-.delete-question {
-    background: #001e4d;
+.delete-question{
+    background: var(--primary-color);
     color: white;
     border: none;
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+
+
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+    border-radius: 10px;
+}
+
+.modal-content{
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close-btn{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    float: right;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+#save-btn{
+    margin-top: 15px;
+}
+
+.edit-input{
+    margin-bottom: 15px;
+}
+

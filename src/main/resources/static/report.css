@@ -79,7 +79,7 @@ th {
 }
 
 .download-btn {
-    background-color: green;
+    background-color: #001e4d;
     color: white;
     padding: 5px 10px;
     border: none;
@@ -88,5 +88,5 @@ th {
 }
 
 .download-btn:hover {
-    background-color: darkgreen;
+    background-color: #001e4d;
 }

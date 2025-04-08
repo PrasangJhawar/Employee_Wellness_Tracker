@@ -8,23 +8,23 @@ async function fetchSubmittedResponses() {
         return;
     }
 
-    try {
+    try{
         const response = await fetch(`http://localhost:8080/responses/survey/${surveyId}/employee/${employeeId}`);
-        if (!response.ok) {
+        if(!response.ok){
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         
         const responses = await response.json();
         const responsesContainer = document.getElementById("responses-container");
 
-        if (!responsesContainer) {
+        if(!responsesContainer){
             console.error("Element with ID 'responses-container' not found");
             return;
         }
 
         responsesContainer.innerHTML = "";
 
-        if (responses.length === 0) {
+        if(responses.length === 0){
             responsesContainer.innerHTML = "<p>No responses found for this survey.</p>";
             return;
         }
@@ -40,7 +40,7 @@ async function fetchSubmittedResponses() {
         });
         
 
-    } catch (error) {
+    }catch(error){
         console.error("Error fetching submitted responses:", error);
     }
 }
@@ -48,6 +48,8 @@ async function fetchSubmittedResponses() {
 //calling function once the page gets loaded
 document.addEventListener("DOMContentLoaded", fetchSubmittedResponses);
 
-function goBack() {
+function goBack(){
     window.location.href = "dashboard.html";
 }
+
+

@@ -1,16 +1,16 @@
-function getSurveyIdFromURL() {
+function getSurveyIdFromURL(){
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("id");
 }
 
-async function fetchSurveyDetails() {
+async function fetchSurveyDetails(){
     const surveyId = getSurveyIdFromURL();
-    if (!surveyId) {
+    if(!surveyId){
         console.error("Survey ID not found in URL");
         return;
     }
 
-    try {
+    try{
         const surveyResponse = await fetch(`http://localhost:8080/surveys/${surveyId}`);
         const survey = await surveyResponse.json();
 
@@ -21,13 +21,13 @@ async function fetchSurveyDetails() {
         `;
 
         fetchSurveyQuestions(surveyId);
-    } catch (error) {
+    }catch(error){
         console.error("Error fetching survey details:", error);
     }
 }
 
-async function fetchSurveyQuestions(surveyId) {
-    try {
+async function fetchSurveyQuestions(surveyId){
+    try{
         const questionsResponse = await fetch(`http://localhost:8080/surveys/${surveyId}/questions`);
         const questions = await questionsResponse.json();
 
@@ -36,7 +36,7 @@ async function fetchSurveyQuestions(surveyId) {
 
         questionsContainer.style.marginTop = "20px";
 
-        if (questions.length === 0) {
+        if(questions.length === 0){
             questionsContainer.innerHTML += "<p>No questions available for this survey.</p>";
             return;
         }
@@ -68,17 +68,17 @@ async function fetchSurveyQuestions(surveyId) {
         submitButton.innerText = "Submit Responses";
         submitButton.onclick = submitResponses;
         questionsContainer.appendChild(submitButton);
-    } catch (error) {
+    }catch(error){
         console.error("Error fetching survey questions:", error);
     }
 }
 
 
-async function submitResponses() {
+async function submitResponses(){
     const surveyId = getSurveyIdFromURL();
     const employeeId = sessionStorage.getItem("employeeId");
 
-    if (!surveyId || !employeeId) {
+    if(!surveyId || !employeeId){
         console.error("Survey ID or Employee ID missing");
         return;
     }
@@ -91,9 +91,9 @@ async function submitResponses() {
         const inputField = questionItem.querySelector(`input[name="response-${questionId}"]`);
 
         
-        if (!inputField || !inputField.value.trim()) {
+        if(!inputField || !inputField.value.trim()){
             allQuestionsAnswered = false;
-        } else {
+        }else{
             responses.push({
                 employeeId: employeeId,
                 surveyId: surveyId,
@@ -103,12 +103,12 @@ async function submitResponses() {
         }
     });
 
-    if (!allQuestionsAnswered) {
+    if(!allQuestionsAnswered){
         alert("Please answer all questions before submitting.");
         return;
     }
 
-    try {
+    try{
         await Promise.all(responses.map(response =>
             fetch("http://localhost:8080/responses/submit", {
                 method: "POST",
@@ -121,7 +121,7 @@ async function submitResponses() {
         sessionStorage.setItem("surveyUpdated", "true");
         window.location.href = "dashboard.html";
 
-    } catch (error) {
+    }catch(error){
         console.error("Error submitting responses:", error);
     }
 }

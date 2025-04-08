@@ -1,3 +1,4 @@
+//this function is used for fetching live surveys
 async function fetchSurveys(){
     try{
         const response = await fetch("http://localhost:8080/surveys");
@@ -10,6 +11,7 @@ async function fetchSurveys(){
             return;
         }
 
+        //extracting unique survey id's to change button behaviour/UI changes
         const submittedResponse = await fetch(`http://localhost:8080/responses/employee/${employeeId}`);
         const submittedSurveys = await submittedResponse.json();
 
@@ -54,6 +56,8 @@ async function fetchSurveys(){
     }
 }
 
+
+//this function is used for the submitted surveys section
 async function fetchSubmittedSurveys(){
     const employeeId = sessionStorage.getItem("employeeId");
     if(!employeeId){
@@ -113,6 +117,7 @@ async function deleteResponses(surveyId){
         });
 
         if(response.ok){
+            //re rendering the page elements
             alert("Responses deleted successfully");
             fetchSubmittedSurveys();
             fetchSurveys();
@@ -134,21 +139,24 @@ async function deleteResponses(surveyId){
     }
 }
 
+//opens the survey filling page
 function viewSurvey(surveyId){
     window.location.href = `survey-details.html?id=${surveyId}`;
 }
 
+//open the submitted responses page
 function viewSubmittedResponses(surveyId){
     window.location.href = `submitted-responses.html?id=${surveyId}`;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    if(sessionStorage.getItem("surveyUpdated") === "true"){
-        console.log("refreshing dashboard");
-        fetchSurveys();
-        fetchSubmittedSurveys();
-        sessionStorage.removeItem("surveyUpdated");
-    }
+    //debugging
+    // if(sessionStorage.getItem("surveyUpdated") === "true"){
+    //     console.log("refreshing dashboard");
+    //     fetchSurveys();
+    //     fetchSubmittedSurveys();
+    //     sessionStorage.removeItem("surveyUpdated");
+    // }
 
     fetchSurveys();
     fetchSubmittedSurveys();

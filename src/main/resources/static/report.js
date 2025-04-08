@@ -8,8 +8,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (!adminId || !adminName) {
         alert("Admin not logged in. Redirecting...");
-        window.location.href = "auth.html"; 
+        window.location.href = "login.html"; 
     }
+
 
     function loadReports() {
         fetch(`${BASE_URL}/reports`)

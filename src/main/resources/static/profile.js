@@ -19,10 +19,12 @@ async function updateProfile(){
     }
 
     const updatedName = document.getElementById("name").value;
+    const updatedDepartment = document.getElementById("department").value;
     const updatedPassword = document.getElementById("password").value;
 
     const updateData = {
         name: updatedName || null,
+        department: updatedDepartment || null,
         password: updatedPassword || null
     };
 
