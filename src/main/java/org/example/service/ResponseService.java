@@ -1,5 +1,5 @@
 package org.example.service;
-
+import java.util.*;
 import jakarta.transaction.Transactional;
 import org.example.dto.ResponseDTO;
 import org.example.model.Employee;
@@ -106,6 +106,18 @@ public class ResponseService {
                         response.getSurvey().getDescription()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    //mapping question and answers
+    public Map<String, String> getQuestionAnswerMapForEmployee(UUID employeeId){
+        List<Response> responses = responseRepository.findByEmployeeId(employeeId);
+        Map<String, String> qaMap = new LinkedHashMap<>();
+        for (Response response : responses) {
+            String questionText = response.getQuestion().getText();
+            String answerText = response.getResponseText();
+            qaMap.put(questionText, answerText);
+        }
+        return qaMap;
     }
 
     //filtered by survey and responses together
