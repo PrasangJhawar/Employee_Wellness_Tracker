@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -70,5 +71,18 @@ public class ResponseController {
         responseService.deleteResponsesByEmployeeAndSurvey(employeeId, surveyId);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{responseId}")
+    public ResponseEntity<ResponseDTO> editResponse(
+            @PathVariable UUID responseId,
+            @RequestBody Map<String, String> requestBody) {
+
+        String newResponseText = requestBody.get("text");
+
+        ResponseDTO updated = responseService.editResponse(responseId, newResponseText);
+        return ResponseEntity.ok(updated);
+    }
+
+
 
 }
