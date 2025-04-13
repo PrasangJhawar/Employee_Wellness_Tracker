@@ -111,3 +111,12 @@ button:hover {
 h2{
     margin-bottom: 15px;
 }
+
+.response-item textarea {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: vertical;
+}

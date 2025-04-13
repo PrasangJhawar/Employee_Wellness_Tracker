@@ -33,8 +33,9 @@ async function fetchSubmittedResponses() {
             const responseItem = document.createElement("div");
             responseItem.classList.add("response-item");
             responseItem.innerHTML = `
-                <p><strong>Question:</strong> ${response.questionText}</p>  <!-- Fix: Use questionText -->
-                <p><strong>Your Response:</strong> ${response.responseText}</p>
+                <p><strong>Question:</strong> ${response.questionText}</p>
+                <textarea id="response-${response.id}" rows="3" style="width: 100%;">${response.responseText}</textarea>
+                <button onclick="updateResponse('${response.id}')">Update</button>
             `;
             responsesContainer.appendChild(responseItem);
         });
@@ -50,6 +51,32 @@ document.addEventListener("DOMContentLoaded", fetchSubmittedResponses);
 
 function goBack(){
     window.location.href = "dashboard.html";
+}
+
+
+
+async function updateResponse(responseId){
+    const textarea = document.getElementById(`response-${responseId}`);
+    const updatedText = textarea.value;
+
+    try{
+        const res = await fetch(`http://localhost:8080/responses/${responseId}`, {
+            method: "PUT",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ text: updatedText })
+        });
+
+        if(!res.ok){
+            throw new Error(`Failed to update response. Status: ${res.status}`);
+        }
+
+        alert("Response updated successfully!");
+    }catch(error){
+        console.error("Error updating response:", error);
+        alert("Error updating response.");
+    }
 }
 
 
