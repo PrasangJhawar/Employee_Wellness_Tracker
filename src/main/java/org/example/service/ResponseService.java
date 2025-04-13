@@ -10,7 +10,12 @@ import org.example.repository.EmployeeRepository;
 import org.example.repository.QuestionRepository;
 import org.example.repository.ResponseRepository;
 import org.example.repository.SurveyRepository;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 
 import java.util.List;
 import java.util.UUID;
@@ -119,6 +124,26 @@ public class ResponseService {
         }
         return qaMap;
     }
+
+    public ResponseDTO editResponse(UUID responseId, String newResponseText) {
+        Response response = responseRepository.findById(responseId)
+                .orElseThrow(() -> new RuntimeException("Response not found"));
+
+        response.setResponseText(newResponseText); //updating the answer
+        Response updatedResponse = responseRepository.save(response); //saving to DB
+
+        return new ResponseDTO(
+                updatedResponse.getId(),
+                updatedResponse.getResponseText(),
+                updatedResponse.getEmployee().getId(),
+                updatedResponse.getQuestion().getId(),
+                updatedResponse.getQuestion().getText(),
+                updatedResponse.getSurvey().getId(),
+                updatedResponse.getSurvey().getTitle(),
+                updatedResponse.getSurvey().getDescription()
+        );
+    }
+
 
     //filtered by survey and responses together
     public List<ResponseDTO> getResponsesForSurveyByEmployee(UUID surveyId, UUID employeeId) {
